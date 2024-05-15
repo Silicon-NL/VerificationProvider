@@ -4,15 +4,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using VerificationProvider.Data.Contexts;
-using VerificationProvider.Functions;
 using VerificationProvider.Models;
 
 namespace VerificationProvider.Services;
 
-public class VerificationService(ILogger<GenerateVerificationCode> logger, IServiceProvider serviceProvider) : IVerificationService
+public class VerificationService(ILogger<VerificationService> logger, IServiceProvider serviceProvider) : IVerificationService
 {
-    private readonly ILogger<GenerateVerificationCode> _logger = logger;
+    private readonly ILogger<VerificationService> _logger = logger;
     private readonly IServiceProvider _serviceProvider = serviceProvider;
+
     public VerificationRequestModel UnPackVerificationRequest(ServiceBusReceivedMessage message)
     {
         try
@@ -24,7 +24,7 @@ public class VerificationService(ILogger<GenerateVerificationCode> logger, IServ
         catch (Exception ex)
         {
 
-            _logger.LogError($"ERROR: GenerateVerificationCodeService.UnPackVerificationRequest :: {ex.Message}");
+            _logger.LogError($"ERROR: VerificationService.UnPackVerificationRequest :: {ex.Message}");
         }
         return null!;
     }
@@ -41,7 +41,7 @@ public class VerificationService(ILogger<GenerateVerificationCode> logger, IServ
         catch (Exception ex)
         {
 
-            _logger.LogError($"ERROR: GenerateVerificationCodeService.GenerateCode :: {ex.Message}");
+            _logger.LogError($"ERROR: VerificationService.GenerateCode :: {ex.Message}");
         }
         return null!;
     }
@@ -58,7 +58,7 @@ public class VerificationService(ILogger<GenerateVerificationCode> logger, IServ
         }
         catch (Exception ex)
         {
-            _logger.LogError($"ERROR: GenerateVerificationCode.GenerateServiceBusEmailRequest :: {ex.Message}");
+            _logger.LogError($"ERROR: VerificationService.GenerateServiceBusEmailRequest :: {ex.Message}");
         }
         return null!;
     }
@@ -90,7 +90,7 @@ public class VerificationService(ILogger<GenerateVerificationCode> logger, IServ
         }
         catch (Exception ex)
         {
-            _logger.LogError($"ERROR: GenerateVerificationCode.SaveVerificationRequest :: {ex.Message}");
+            _logger.LogError($"ERROR: VerificationService.SaveVerificationRequest :: {ex.Message}");
         }
         return false;
     }
@@ -136,7 +136,7 @@ public class VerificationService(ILogger<GenerateVerificationCode> logger, IServ
         catch (Exception ex)
         {
 
-            _logger.LogError($"ERROR : GenerateVerificationCode.GenerateEmailRequest :: {ex.Message}");
+            _logger.LogError($"ERROR : VerificationService.GenerateEmailRequest :: {ex.Message}");
         }
 
         return null!;
