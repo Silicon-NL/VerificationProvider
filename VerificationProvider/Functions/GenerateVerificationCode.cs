@@ -27,7 +27,8 @@ public class GenerateVerificationCode(ILogger<GenerateVerificationCode> logger, 
                 var code = _verificationService.GenerateCode();
                 if (!string.IsNullOrEmpty(code))
                 {
-                    if (await _verificationService.SaveVerificationRequest(verificationRequest, code))
+                    var result = await _verificationService.SaveVerificationRequest(verificationRequest, code);
+                    if (result)
                     {
                         var emailRequest = _verificationService.GenerateEmailRequest(verificationRequest, code);
                         if (emailRequest != null)
