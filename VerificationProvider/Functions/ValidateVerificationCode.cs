@@ -12,7 +12,7 @@ public class ValidateVerificationCode(ILogger<ValidateVerificationCode> logger, 
     private readonly IValidateVerificationCodeService _validateVerificationCodeService = validateVerificationCodeService;
 
     [Function("ValidateVerificationCode")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "post", Route = "verify")] HttpRequest req)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "verify")] HttpRequest req)
     {
         try
         {
