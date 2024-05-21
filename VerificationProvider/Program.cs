@@ -1,3 +1,4 @@
+using Azure.Messaging.ServiceBus;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,8 +16,13 @@ var host = new HostBuilder()
         services.AddDbContext<DataContext>(x => x.UseSqlServer(Environment.GetEnvironmentVariable("VerificationDataBase")));
         services.AddScoped<IVerificationService, VerificationService>();
         services.AddScoped<IVerificationCleanerService, VerificationCleanerService>();
-        services.AddScoped<IValidateVerificationCodeService, ValidateVerificationCodeService>(); 
+        services.AddScoped<IValidateVerificationCodeService, ValidateVerificationCodeService>();
 
+        services.AddSingleton<ServiceBusClient>(provider =>
+        {
+            var serviceBusConnectionString = Environment.GetEnvironmentVariable("ServiceBusConnection");
+            return new ServiceBusClient(serviceBusConnectionString);
+        });
     })
     .Build();
 
@@ -37,4 +43,4 @@ using (var scope = host.Services.CreateScope())
     }
 }
 
-    host.Run();
+host.Run();
